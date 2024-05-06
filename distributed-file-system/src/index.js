@@ -3,12 +3,12 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import DemoFileCardActions from "./FileCardComponent";
+// import DemoFileCardActions from "./FileCardComponent";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <App />
-    <DemoFileCardActions />
+    {/* <DemoFileCardActions /> */}
   </React.StrictMode>
 );
 
