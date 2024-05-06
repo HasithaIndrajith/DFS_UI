@@ -1,107 +1,42 @@
-import {
-  Dropzone,
-  FileMosaic,
-  FullScreen,
-  ImagePreview,
-  VideoPreview,
-} from "@files-ui/react";
-import * as React from "react";
 
-const BASE_URL = "https://www.myserver.com";
+import axios from "axios";
+import { sampleFileMetadata } from "./data";
+import FileList from "./FileList";
+import { useEffect, useState } from "react";
 
 export default function AdvancedDropzoneDemo() {
-  const [extFiles, setExtFiles] = React.useState([]);
-  const [imageSrc, setImageSrc] = React.useState(undefined);
-  const [videoSrc, setVideoSrc] = React.useState(undefined);
+  const [files, setFiles] = useState([]);
+  // const [searchQuery, setSearchQuery] = React.useState("");
 
-  const updateFiles = (incommingFiles) => {
-    console.log("incomming files", incommingFiles);
-    setExtFiles(incommingFiles);
-  };
-  const onDelete = (id) => {
-    setExtFiles(extFiles.filter((x) => x.id !== id));
-  };
-  const handleSee = (imageSource) => {
-    setImageSrc(imageSource);
-  };
-  const handleWatch = (videoSource) => {
-    setVideoSrc(videoSource);
-  };
-  const handleStart = (filesToUpload) => {
-    console.log("advanced demo start upload", filesToUpload);
-  };
-  const handleFinish = (uploadedFiles) => {
-    console.log("advanced demo finish upload", uploadedFiles);
-  };
-  const handleAbort = (id) => {
-    setExtFiles(
-      extFiles.map((ef) => {
-        if (ef.id === id) {
-          return { ...ef, uploadStatus: "aborted" };
-        } else return { ...ef };
-      })
-    );
-  };
-  const handleCancel = (id) => {
-    setExtFiles(
-      extFiles.map((ef) => {
-        if (ef.id === id) {
-          return { ...ef, uploadStatus: undefined };
-        } else return { ...ef };
-      })
-    );
-  };
+  useEffect(() => {
+    async function fetchFiles() {
+      try {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/server/files`
+        );
+        console.log("Files fetched:", response.data);
+        // Convert the response data to the FileMetadata type
+        const convertedFiles = response.data.map((file, index) => {
+          return {
+            id: index.toString(),
+            size: file.fileSize,
+            type: file.fileType,
+            name: file.fileName,
+          };
+        });
+        setFiles(convertedFiles);
+      } catch (error) {
+        console.error("Files fetch failed:", error);
+      }
+    }
+    fetchFiles();
+    setFiles(sampleFileMetadata);
+  }, []);
+
   return (
     <>
-      <Dropzone
-        onChange={updateFiles}
-        minHeight="195px"
-        value={extFiles}
-        maxFiles={1}
-        label="Drag'n drop files here or click to browse"
-        uploadConfig={{
-          // autoUpload: true
-          url: BASE_URL + "/file",
-          cleanOnUpload: true,
-        }}
-        onUploadStart={handleStart}
-        onUploadFinish={handleFinish}
-        fakeUpload
-        actionButtons={{
-          position: "after",
-          abortButton: {},
-          deleteButton: {},
-          uploadButton: {},
-        }}
-      >
-        {extFiles.map((file) => (
-          <FileMosaic
-            {...file}
-            key={file.id}
-            onDelete={onDelete}
-            onSee={handleSee}
-            onWatch={handleWatch}
-            onAbort={handleAbort}
-            onCancel={handleCancel}
-            resultOnTooltip
-            alwaysActive
-            preview
-            info
-          />
-        ))}
-      </Dropzone>
-      <FullScreen
-        open={imageSrc !== undefined}
-        onClose={() => setImageSrc(undefined)}
-      >
-        <ImagePreview src={imageSrc} />
-      </FullScreen>
-      <FullScreen
-        open={videoSrc !== undefined}
-        onClose={() => setVideoSrc(undefined)}
-      >
-        <VideoPreview src={videoSrc} autoPlay controls />
-      </FullScreen>
+      <AdvancedDropzoneDemo />
+      <FileList files={files} />
     </>
   );
 }
