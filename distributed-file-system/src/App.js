@@ -57,9 +57,7 @@ export default function AdvancedDropzoneDemo() {
         onChange={updateFiles}
         minHeight="195px"
         value={extFiles}
-        accept="image/*, video/*"
-        maxFiles={3}
-        maxFileSize={2 * 1024 * 1024}
+        maxFiles={1}
         label="Drag'n drop files here or click to browse"
         uploadConfig={{
           // autoUpload: true
