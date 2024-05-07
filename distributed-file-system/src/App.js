@@ -3,6 +3,7 @@ import axios from "axios";
 import { sampleFileMetadata } from "./data";
 import FileList from "./FileList";
 import { useEffect, useState } from "react";
+import  MyDropZone  from "./DropZone";
 
 export default function AdvancedDropzoneDemo() {
   const [files, setFiles] = useState([]);
@@ -35,7 +36,7 @@ export default function AdvancedDropzoneDemo() {
 
   return (
     <>
-      <AdvancedDropzoneDemo />
+      <MyDropZone />
       <FileList files={files} />
     </>
   );

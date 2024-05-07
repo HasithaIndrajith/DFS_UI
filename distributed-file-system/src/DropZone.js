@@ -9,7 +9,7 @@ import * as React from "react";
 
 const BASE_URL = "https://www.myserver.com";
 
-export default function AdvancedDropzoneDemo() {
+export default function MyDropZone() {
 
   const [extFiles, setExtFiles] = React.useState([]);
   const [imageSrc, setImageSrc] = React.useState(undefined);
