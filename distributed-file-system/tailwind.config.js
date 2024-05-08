@@ -14,6 +14,7 @@ module.exports = {
       md: "900px",
       lg: "1024px",
       xl: "1280px",
+      
       "2xl": "1536px",
       "3xl": "1680px",
       "4xl": "2200px",
@@ -25,8 +26,8 @@ module.exports = {
       },
       colors: {
         // primary: "#0bab7c",
-        primary: "#710280",
-        // "primary-light": "#07ae7133",
+        primary: "#0096FF",
+        "primary-dark": "#0047AB",
         "primary-light": "#5C038C",
         // secondaryLightGreen: "#C7F4C2",
         secondaryLightGreen: "#967BB6",
