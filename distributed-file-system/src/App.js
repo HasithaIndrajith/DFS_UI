@@ -74,15 +74,15 @@ export default function AdvancedDropzoneDemo() {
 
   return (
     <>
-      <nav className="bg-black p-4 text-white flex justify-between items-center fixed top-0 w-full z-10">
-        <span className="text-xl font-bold">
-          Scatterrr: Distributed File Storage
+      <nav className="bg-primary m-0 p-4 text-white flex justify-between items-center fixed top-0 w-full z-40 shadow-light">
+        <span className="text-xl text-gray-100">
+          File Storage System
         </span>
 
         <div className="space-x-4">
           {/* Add upload button that directs to the DropZone section in the page */}
           <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            className="bg-secondaryLightGreen hover:bg-secondaryLightPurple text-white font-regular py-1 px-2 rounded"
             onClick={scrollToDropZone}
           >
             Upload
@@ -91,7 +91,7 @@ export default function AdvancedDropzoneDemo() {
           <input
             type="text"
             placeholder="Search for files..."
-            className={`p-2 border-2 border-gray-300 rounded-md w-96 text-black`}
+            className={`p-1 border-2 rounded-md w-96 text-black hover:border-secondaryLightGreen focus:outline-none`}
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
@@ -101,7 +101,7 @@ export default function AdvancedDropzoneDemo() {
           />
           {/* Add a search button */}
           <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            className="bg-secondaryLightGreen hover:bg-secondaryLightPurple text-white font-regular py-1 px-2 rounded"
             onClick={() => {
               handleSearch();
             }}
@@ -111,16 +111,16 @@ export default function AdvancedDropzoneDemo() {
         </div>
       </nav>
 
-      <main className="p-24 mt-4">
-        <div className="flex justify-center m-12" id="dropzone">
+      <main className="p-24 mt-4 bg-primary-dark w-full m-auto">
+        <div className="flex justify-center items-center m-12 bg-primary p-10 rounded-lg" id="dropzone">
           <MyDropZone appendUploadedFile={appendUploadedFile} />
         </div>
 
         <div className="m-12">
-          <span className="text-xl font-bold" id="filelist">
+          <span className="text-2xl font-semibold text-gray-100" id="filelist">
             Your Files
           </span>
-          <div className="flex justify-center">
+          <div className="flex justify-center items-center bg-primary rounded-lg mt-10 pb-5">
             <FileList files={files} />
           </div>
         </div>

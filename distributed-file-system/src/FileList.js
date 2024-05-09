@@ -96,9 +96,9 @@ export default function FileList({ files }) {
   return (
     <>
     {/* <ToastContainer /> */}
-    <div className="flex flex-wrap mt-4 align-left justify-left">
+    <div className="flex flex-wrap mt-4 align-left justify-center">
       {files.map((file) => (
-        <div className="mr-12 m-4" key={file.id}>
+        <div className="m-8 bg-primary-light rounded-md p-1" key={file.id}>
           <FileCard 
           {...file} 
           darkMode={true}

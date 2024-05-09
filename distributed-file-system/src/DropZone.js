@@ -1,7 +1,8 @@
 import { Dropzone, FileMosaic } from "@files-ui/react";
+import { hover } from "@testing-library/user-event/dist/hover";
 import * as React from "react";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+// import "react-toastify/dist/ReactToastify.css";
 
 export default function MyDropZone({ appendUploadedFile }) {
   const [extFiles, setExtFiles] = React.useState([]);
@@ -32,7 +33,8 @@ export default function MyDropZone({ appendUploadedFile }) {
       <ToastContainer />
       <Dropzone
         onChange={updateFiles}
-        minHeight="195px"
+        // minHeight="195px"
+        width="500px"
         value={extFiles}
         maxFiles={1}
         label="Drag'n drop files here or click to browse"
@@ -48,9 +50,10 @@ export default function MyDropZone({ appendUploadedFile }) {
         actionButtons={{
           position: "after",
           abortButton: {},
-          uploadButton: {},
-          cleanButton: { onClick: () => setExtFiles([]) },
+          uploadButton: {style: { backgroundColor: "#0096FF", hover:{backgroundColor:"#2561bf"} }},
+          cleanButton: { style: { backgroundColor: "#0096FF", hover:{backgroundColor:"#2561bf"} }, onClick: () => setExtFiles([]) },
         }}
+        color="#ffffff"
       >
         {extFiles.map((file) => (
           <FileMosaic
