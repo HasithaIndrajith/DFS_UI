@@ -1,11 +1,14 @@
-
 import axios from "axios";
 import { sampleFileMetadata, searchedFileMetadata } from "./data";
 import FileList from "./FileList";
 import { useEffect, useState } from "react";
-import  MyDropZone  from "./DropZone";
+import MyDropZone from "./DropZone";
+import { motion } from "framer-motion";
+import useDarkMode from "./helpper/useDarkMode";
+import { FiMoon, FiSun } from "react-icons/fi";
 
 export default function AdvancedDropzoneDemo() {
+  const [mode, toggleMode] = useDarkMode("JobIt-Next-theme-mode");
   const [files, setFiles] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -35,54 +38,60 @@ export default function AdvancedDropzoneDemo() {
   }, []);
 
   const scrollToDropZone = () => {
-    console.log('Scrolling to DropZone');
-    const dropZone = document.getElementById('dropzone');
+    console.log("Scrolling to DropZone");
+    const dropZone = document.getElementById("dropzone");
     if (dropZone) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
-  }
+  };
 
   const handleSearch = () => {
-    console.log('Searching for:', searchQuery);
+    console.log("Searching for:", searchQuery);
     // TODO: Call the search API
 
     // TODO: Update the files state with the search results
     setFiles(searchedFileMetadata);
 
     // Scroll to the FileList section
-    const fileList = document.getElementById('filelist');
+    const fileList = document.getElementById("filelist");
     if (fileList) {
-      window.scrollTo({ top: fileList.offsetTop, behavior: 'smooth' });
+      window.scrollTo({ top: fileList.offsetTop, behavior: "smooth" });
     }
 
     // Clear the search input
-    setSearchQuery('');
-
-  }
+    setSearchQuery("");
+  };
 
   const appendUploadedFile = (file) => {
-    console.log('Appending uploaded file:', file);
+    console.log("Appending uploaded file:", file);
     const newFile = {
       id: (files.length + 1).toString(),
       name: file.name,
       size: file.size,
-      type: file.type
+      type: file.type,
     };
     setFiles([...files, newFile]);
-  }
-
+  };
 
   return (
     <>
-      <nav className="bg-black p-4 text-white flex justify-between items-center fixed top-0 w-full z-10">
-        <span className="text-xl font-bold">
+      <nav className="bg-white p-4 text-black flex justify-between items-center fixed top-0 left-0 w-full z-10 shadow-md dark:bg-black dark:text-white">
+        <span className="text-lg font-semibold">
           Scatterrr: Distributed File Storage
         </span>
+
+        <motion.div
+          className="icon-box bg-white text-black dark:bg-black dark:text-white mr-2 cursor-pointer"
+          onClick={toggleMode}
+          whileTap={{ scale: 0.5 }}
+        >
+          {mode === "dark" ? <FiSun /> : <FiMoon />}
+        </motion.div>
 
         <div className="space-x-4">
           {/* Add upload button that directs to the DropZone section in the page */}
           <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            className="bg-primary hover:bg-primary-dark text-white text-sm font-semibold py-2 px-4 rounded"
             onClick={scrollToDropZone}
           >
             Upload
@@ -101,7 +110,7 @@ export default function AdvancedDropzoneDemo() {
           />
           {/* Add a search button */}
           <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            className="bg-primary hover:bg-primary-dark text-white text-sm font-semibold py-2 px-4 rounded"
             onClick={() => {
               handleSearch();
             }}

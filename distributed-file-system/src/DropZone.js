@@ -7,12 +7,12 @@ export default function MyDropZone({ appendUploadedFile }) {
   const [extFiles, setExtFiles] = React.useState([]);
 
   const updateFiles = (incommingFiles) => {
-    console.log(incommingFiles)
+    console.log(incommingFiles);
     console.log("incomming files", incommingFiles[0].file);
     setExtFiles(incommingFiles);
   };
   const onDelete = (id) => {
-    console.log("Deleted!" , id);
+    console.log("Deleted!", id);
     setExtFiles(extFiles.filter((x) => x.id !== id));
   };
 
