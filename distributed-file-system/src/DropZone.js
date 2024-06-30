@@ -41,7 +41,9 @@ export default function MyDropZone({ appendUploadedFile }) {
         maxFiles={1}
         label="Drag'n drop files here or click to browse"
         uploadConfig={{
-          url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/server/upload`,
+          url: `http://localhost:5001/namenode/upload`,
+          // url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/server/upload`,
+          body: { extFiles },
           method: "POST",
           headers: {}, // add API key
         }}

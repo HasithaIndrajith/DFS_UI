@@ -58,7 +58,7 @@ export default function FileList({ files }) {
     const response = await axios({
       responseType: "blob",
       // url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/server/retrieve?fileName=${fileName}`,
-      url: "http://localhost:8080/",
+      url: "http://localhost:5001/namenode/download",
     });
 
     console.log(response);

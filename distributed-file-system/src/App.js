@@ -1,5 +1,5 @@
 import axios from "axios";
-import { sampleFileMetadata, searchedFileMetadata } from "./data";
+import { searchedFileMetadata } from "./data";
 import FileList from "./FileList";
 import { useEffect, useState } from "react";
 import MyDropZone from "./DropZone";
@@ -16,25 +16,27 @@ export default function AdvancedDropzoneDemo() {
     async function fetchFiles() {
       try {
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/server/files`
+          `http://localhost:5001/namenode/files`
         );
         console.log("Files fetched:", response.data);
         // Convert the response data to the FileMetadata type
         const convertedFiles = response.data.map((file, index) => {
+          console.log(file, index);
           return {
             id: index.toString(),
-            size: file.fileSize,
-            type: file.fileType,
-            name: file.fileName,
+            size: file.size,
+            type: file.type,
+            name: file.name,
           };
         });
+        console.log(convertedFiles);
         setFiles(convertedFiles);
       } catch (error) {
         console.error("Files fetch failed:", error);
       }
     }
     fetchFiles();
-    setFiles(sampleFileMetadata);
+    // setFiles(sampleFileMetadata);
   }, []);
 
   const scrollToDropZone = () => {
