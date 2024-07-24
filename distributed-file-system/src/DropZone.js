@@ -6,12 +6,15 @@ import "react-toastify/dist/ReactToastify.css";
 export default function MyDropZone({ appendUploadedFile }) {
   const [extFiles, setExtFiles] = React.useState([]);
   const [name, setName] = React.useState("newFile");
+  const [fileType, setFileType] = React.useState("");
+  const [fileSize, setFileSize] = React.useState(0);
   const updateFiles = (incommingFiles) => {
     // 1
     console.log(incommingFiles);
     console.log("1 incomming files", incommingFiles[0].file);
     setName(incommingFiles[0].name);
-
+    setFileType(incommingFiles[0].type);
+    setFileSize(incommingFiles[0].size);
     setExtFiles(incommingFiles);
   };
 
@@ -43,7 +46,7 @@ export default function MyDropZone({ appendUploadedFile }) {
         maxFiles={1}
         label="Drag'n drop files here or click to browse"
         uploadConfig={{
-          url: `http://localhost:5001/namenode/upload?fileName=${name}`,
+          url: `http://localhost:5001/namenode/upload?fileName=${name}&type=${fileType}&size=${fileSize}`,
           // url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/server/upload`,
           // body: { extFiles },
           method: "POST",
