@@ -51,14 +51,15 @@ export default function FileList({ files }) {
   //   setDownloadingFileName('');
   // }
 
-  const handleDownload = async (fileName) => {
-    console.log("Download file", fileName);
+  const handleDownload = async (fileID) => {
+    fileID = 37;
+    console.log("Download file", fileID);
     // setDownloadingFileName(fileName);
     // eslint-disable-next-line no-unused-vars
     const response = await axios({
       responseType: "blob",
       // url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/server/retrieve?fileName=${fileName}`,
-      url: "http://localhost:5001/namenode/download",
+      url: `http://localhost:5001/namenode/download?fileID=${fileID}`,
     });
 
     console.log(response);
@@ -72,7 +73,7 @@ export default function FileList({ files }) {
     // if status code is 200, then content is authentic, download the file
     else {
       console.log("File is authentic");
-      handleDownloadedContent(response.data, fileName);
+      handleDownloadedContent(response.data, fileID);
     }
   };
 
@@ -97,10 +98,10 @@ export default function FileList({ files }) {
               {...file}
               darkMode={true}
               onDownload={() => {
-                handleDownload(file.name);
+                handleDownload(file.id);
               }}
               onDelete={() => {
-                handleDelete(file.name);
+                handleDelete(file.id);
               }}
             />
           </div>
