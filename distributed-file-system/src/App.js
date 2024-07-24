@@ -23,7 +23,7 @@ export default function AdvancedDropzoneDemo() {
         const convertedFiles = response.data.map((file, index) => {
           console.log(file, index);
           return {
-            id: index.toString(),
+            id: file.id,
             size: file.size,
             type: file.type,
             name: file.name,
@@ -47,12 +47,32 @@ export default function AdvancedDropzoneDemo() {
     }
   };
 
-  const handleSearch = () => {
+  const handleSearch = async () => {
     console.log("Searching for:", searchQuery);
-    // TODO: Call the search API
+    async function searchFiles(searchQuery) {
+      try {
+        const response = await axios.get(
+          `http://localhost:5001/namenode/search?fileName=${searchQuery}`
+        );
+        console.log("Files fetched:", response.data);
+        // Convert the response data to the FileMetadata type
+        const searchedFileMetadata = response.data.map((file, index) => {
+          console.log(file, index);
+          return {
+            id: file.id,
+            size: file.size,
+            type: file.type,
+            name: file.name,
+          };
+        });
+        console.log(searchedFileMetadata);
+        setFiles(searchedFileMetadata);
+      } catch (error) {
+        console.error("Files fetch failed:", error);
+      }
+    }
+    await searchFiles(searchQuery);
 
-    // TODO: Update the files state with the search results
-    setFiles(searchedFileMetadata);
 
     // Scroll to the FileList section
     const fileList = document.getElementById("filelist");
@@ -103,7 +123,7 @@ export default function AdvancedDropzoneDemo() {
             type="text"
             placeholder="Search for files..."
             className={`p-2 border-2 border-gray-300 rounded-md w-96 text-black`}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={(e) => { setSearchQuery(e.target.value) }}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
                 handleSearch();
@@ -132,7 +152,7 @@ export default function AdvancedDropzoneDemo() {
             Your Files
           </span>
           <div className="flex justify-center">
-            <FileList files={files} />
+            <FileList files={files} setFiles={setFiles} />
           </div>
         </div>
       </main>

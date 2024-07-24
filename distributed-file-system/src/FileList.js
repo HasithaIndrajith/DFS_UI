@@ -4,7 +4,7 @@ import { useState } from "react";
 // import TamperedModal from './TamperedModal';
 // import { toast, ToastContainer } from 'react-toastify';
 
-export default function FileList({ files }) {
+export default function FileList({ files, setFiles }) {
   // const [showModal, setShowModal] = React.useState(false);
   // eslint-disable-next-line no-unused-vars
   const [downloadingFileName, setDownloadingFileName] = useState("");
@@ -16,12 +16,12 @@ export default function FileList({ files }) {
   //   setShowModal(true);
   // };
 
-  const handleDownloadedContent = (data, fileName) => {
+  const handleDownloadedContent = (data, file) => {
     console.log("Download the file to user's device");
-    const url = window.URL.createObjectURL(new Blob([data]));
+    const url = window.URL.createObjectURL(new Blob([data], { type: file.type }));
     const link = document.createElement("a");
     link.href = url;
-    link.setAttribute("download", fileName);
+    link.setAttribute("download", file.name);
     document.body.appendChild(link);
     link.click();
     setDownloadingFileName("");
@@ -51,15 +51,14 @@ export default function FileList({ files }) {
   //   setDownloadingFileName('');
   // }
 
-  const handleDownload = async (fileID) => {
-    fileID = 37;
-    console.log("Download file", fileID);
+  const handleDownload = async (file) => {
+    // console.log("Download file", fileID);
     // setDownloadingFileName(fileName);
     // eslint-disable-next-line no-unused-vars
     const response = await axios({
       responseType: "blob",
       // url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/server/retrieve?fileName=${fileName}`,
-      url: `http://localhost:5001/namenode/download?fileID=${fileID}`,
+      url: `http://localhost:5001/namenode/download?fileID=${file.id}`,
     });
 
     console.log(response);
@@ -73,18 +72,19 @@ export default function FileList({ files }) {
     // if status code is 200, then content is authentic, download the file
     else {
       console.log("File is authentic");
-      handleDownloadedContent(response.data, fileID);
+      handleDownloadedContent(response.data, file);
     }
   };
 
-  const handleDelete = async (fileName) => {
-    console.log("Delete file", fileName);
+  const handleDelete = async (fileRM) => {
+    console.log("Delete file", fileRM.name);
     const response = await axios({
       method: "delete",
-      url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/server/delete?fileName=${fileName}`,
+      url: `http://localhost:5001/namenode/delete/${fileRM.id}`,
     });
     if (response.status === 200) {
       console.log("File deleted successfully");
+      setFiles(files.filter(file => file.id !== fileRM.id));
     }
   };
 
@@ -98,10 +98,11 @@ export default function FileList({ files }) {
               {...file}
               darkMode={true}
               onDownload={() => {
-                handleDownload(file.id);
+                console.log(file)
+                handleDownload(file);
               }}
               onDelete={() => {
-                handleDelete(file.id);
+                handleDelete(file);
               }}
             />
           </div>
