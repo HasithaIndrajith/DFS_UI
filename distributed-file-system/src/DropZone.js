@@ -43,7 +43,7 @@ export default function MyDropZone({ appendUploadedFile }) {
         uploadConfig={{
           url: `http://localhost:5001/namenode/upload`,
           // url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/server/upload`,
-          body: { extFiles },
+          // body: { extFiles },
           method: "POST",
           headers: {}, // add API key
         }}
